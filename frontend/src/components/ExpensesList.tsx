@@ -9,7 +9,17 @@ interface Expense {
   amount: number;
   date: string;
   user_id: number;
+  category: string;
 }
+
+const CATEGORIES = [
+  "food",
+  "transport",
+  "entertainment",
+  "health",
+  "shopping",
+  "other",
+];
 
 export default function ExpensesList() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -17,9 +27,10 @@ export default function ExpensesList() {
   const [title, setTitle] = useState("");
   const [sortBy, setSortBy] = useState<"amount" | "date" | "title">("amount");
   const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState("food");
 
   const POSTExpense = async () => {
-    await addExpense(title, Number(amount));
+    await addExpense(title, Number(amount), category);
   };
 
   const delExpense = async (id: number) => {
@@ -67,7 +78,8 @@ export default function ExpensesList() {
       <ul>
         {filteredAndSorted.map((expense: Expense) => (
           <li key={expense.id}>
-            {expense.title}: ${expense.amount} on {expense.date}
+            {expense.title}: ${expense.amount} : {expense.category} on
+            {expense.date}
             <button onClick={() => delExpense(expense.id)}>Delete</button>
           </li>
         ))}
@@ -85,6 +97,13 @@ export default function ExpensesList() {
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />
+      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+        {CATEGORIES.map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
+      </select>
       <button onClick={POSTExpense}>Add</button>
     </div>
   );

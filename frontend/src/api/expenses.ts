@@ -12,7 +12,11 @@ export const fetchExpenses = async () => {
   return res.json();
 };
 
-export const addExpense = async (title: string, amount: number) => {
+export const addExpense = async (
+  title: string,
+  amount: number,
+  category: string,
+) => {
   const res = await fetch(BASE_URL, {
     method: "POST",
     headers: {
@@ -22,6 +26,7 @@ export const addExpense = async (title: string, amount: number) => {
     body: JSON.stringify({
       title,
       amount,
+      category,
     }),
   });
   if (!res.ok) {
