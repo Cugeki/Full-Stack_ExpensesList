@@ -25,9 +25,12 @@ export default function ExpensesList() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [amount, setAmount] = useState("");
   const [title, setTitle] = useState("");
-  const [sortBy, setSortBy] = useState<"amount" | "date" | "title">("amount");
+  const [sortBy, setSortBy] = useState<
+    "amount" | "date" | "title" | "category"
+  >("amount");
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("food");
+  const [filterCategory, setFilterCategory] = useState("");
 
   const POSTExpense = async () => {
     await addExpense(title, Number(amount), category);
@@ -38,13 +41,20 @@ export default function ExpensesList() {
   };
 
   const filteredAndSorted = [...expenses]
-    .filter((expense) =>
-      expense.title.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
+    .filter((expense) => {
+      const matchesSearch = expense.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCategory = filterCategory
+        ? expense.category === filterCategory
+        : true;
+      return matchesSearch && matchesCategory;
+    })
     .sort((a, b) => {
       if (sortBy === "amount") return a.amount - b.amount;
       if (sortBy === "date") return a.date.localeCompare(b.date);
       if (sortBy === "title") return a.title.localeCompare(b.title);
+      if (sortBy === "category") return a.category.localeCompare(b.category);
       return 0;
     });
 
@@ -66,12 +76,24 @@ export default function ExpensesList() {
       <select
         value={sortBy}
         onChange={(e) =>
-          setSortBy(e.target.value as "amount" | "date" | "title")
+          setSortBy(e.target.value as "amount" | "date" | "title" | "category")
         }
       >
         <option value="amount">Sort by amount</option>
         <option value="date">Sort by date</option>
         <option value="title">Sort by title</option>
+        <option value="category">Sort by category</option>
+      </select>
+      <select
+        value={filterCategory}
+        onChange={(e) => setFilterCategory(e.target.value)}
+      >
+        <option value="">All Categories</option>
+        {CATEGORIES.map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
       </select>
       <h2>Expenses</h2>
 
