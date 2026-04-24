@@ -1,0 +1,28 @@
+.expenses-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.expenses-left {
+  flex: 2;
+}
+
+.expenses-right {
+  flex: 1;
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 1rem;
+}
+
+.total {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e8e8e8;
+}

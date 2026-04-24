@@ -5,6 +5,7 @@ import ExpenseFilter from "./ExpenseFilters";
 
 import ExpenseItems from "./ExpenseItems";
 import type { Expense } from "./types/types";
+import "../styles/ExpensesList.css";
 
 export default function ExpensesList() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -53,23 +54,26 @@ export default function ExpensesList() {
   }, []);
 
   return (
-    <div>
-      <h2>Expenses</h2>
-      <ExpenseFilter
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        filterCategory={filterCategory}
-        setFilterCategory={setFilterCategory}
-      />
-      <ExpenseItems
-        filteredAndSorted={filteredAndSorted}
-        delExpense={delExpense}
-      />
+    <div className="expenses-layout">
+      <div className="expenses-left">
+        <ExpenseFilter
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          filterCategory={filterCategory}
+          setFilterCategory={setFilterCategory}
+        />
+        <ExpenseItems
+          filteredAndSorted={filteredAndSorted}
+          delExpense={delExpense}
+        />
 
-      <h3>Total Expenses: ${sumExpenses.toFixed(2)}</h3>
-      <AddExpense setExpenses={setExpenses} />
+        <h3 className="total">Total Expenses: ${sumExpenses.toFixed(2)}</h3>
+      </div>
+      <div className="expenses-right">
+        <AddExpense setExpenses={setExpenses} />
+      </div>
     </div>
   );
 }

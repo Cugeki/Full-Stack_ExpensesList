@@ -1,4 +1,5 @@
 import { CATEGORIES, type FilterProps } from "./types/types";
+import "../styles/ExpenseFilters.css";
 
 export default function ExpenseFilter({
   searchTerm,
@@ -9,14 +10,16 @@ export default function ExpenseFilter({
   setFilterCategory,
 }: FilterProps) {
   return (
-    <>
+    <div className="filters-row">
       <input
+        className="filter-input"
         placeholder="Search by title..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
       <select
+        className="filter-select"
         value={sortBy}
         onChange={(e) =>
           setSortBy(e.target.value as "amount" | "date" | "title" | "category")
@@ -28,6 +31,7 @@ export default function ExpenseFilter({
         <option value="category">Sort by category</option>
       </select>
       <select
+        className="filter-select"
         value={filterCategory}
         onChange={(e) => setFilterCategory(e.target.value)}
       >
@@ -38,6 +42,6 @@ export default function ExpenseFilter({
           </option>
         ))}
       </select>
-    </>
+    </div>
   );
 }

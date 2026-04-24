@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Login from "./components/Login";
 import ExpensesList from "./components/ExpensesList";
+import "./styles/global.css";
+import "./styles/app.css";
 
 function App() {
   const [token, setToken] = useState<string | null>(
@@ -21,9 +23,13 @@ function App() {
     return <Login onLogin={handleLogin} />;
   } else
     return (
-      <div>
-        <h1>Welcome to the Expense Tracker!</h1>
-        <button onClick={handleLogout}>Logout</button>
+      <div className="app-card">
+        <div className="app-header">
+          <h1>Welcome to the Expense Tracker!</h1>
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
         <ExpensesList />
       </div>
     );
