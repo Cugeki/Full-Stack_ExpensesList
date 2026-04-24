@@ -30,7 +30,7 @@ function App() {
             Logout
           </button>
         </div>
-        <ExpensesList />
+        <ExpensesList token={token} />
       </div>
     );
 }

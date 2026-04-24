@@ -7,7 +7,7 @@ import ExpenseItems from "./ExpenseItems";
 import type { Expense } from "./types/types";
 import "../styles/ExpensesList.css";
 
-export default function ExpensesList() {
+export default function ExpensesList({ token }: { token: string }) {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
   const [sortBy, setSortBy] = useState<
@@ -41,13 +41,13 @@ export default function ExpensesList() {
     0,
   );
   const delExpense = async (id: number) => {
-    await deleteExpense(id);
+    await deleteExpense(id, token);
     setExpenses((prev) => prev.filter((e) => e.id !== id));
   };
 
   useEffect(() => {
     const fetchExpense = async () => {
-      const data = await fetchExpenses();
+      const data = await fetchExpenses(token);
       setExpenses(data);
     };
     fetchExpense();
@@ -72,7 +72,7 @@ export default function ExpensesList() {
         <h3 className="total">Total Expenses: ${sumExpenses.toFixed(2)}</h3>
       </div>
       <div className="expenses-right">
-        <AddExpense setExpenses={setExpenses} />
+        <AddExpense setExpenses={setExpenses} token={token} />
       </div>
     </div>
   );

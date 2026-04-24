@@ -3,13 +3,19 @@ import { addExpense } from "../api/expenses";
 import { CATEGORIES, type ExpenseSetterProps } from "./types/types";
 import "../styles/AddExpense.css";
 
-export default function AddExpense({ setExpenses }: ExpenseSetterProps) {
+export default function AddExpense({
+  setExpenses,
+  token,
+}: {
+  setExpenses: ExpenseSetterProps["setExpenses"];
+  token: string;
+}) {
   const [category, setCategory] = useState("food");
   const [amount, setAmount] = useState("");
   const [title, setTitle] = useState("");
 
   const POSTExpense = async () => {
-    const newExpense = await addExpense(title, Number(amount), category);
+    const newExpense = await addExpense(title, Number(amount), category, token);
     setExpenses((prev) => [...prev, newExpense]);
     setTitle("");
     setAmount("");

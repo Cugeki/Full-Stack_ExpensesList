@@ -22,7 +22,7 @@ router.post("/", authenticate, async (req: Request, res: Response) => {
     return;
   }
   const result = await pool.query(
-    "INSERT INTO expenses(amount,title,date,user_id,category) VALUES($1, $2, $3, $4, $5) RETURNING *",
+    "INSERT INTO expenses(amount,title,date,user_id,category) VALUES($1, $2, $3, $4, $5) RETURNING id, amount, title, category, TO_CHAR(date, 'YYYY-MM-DD') as date",
     [amount, title, date, userId, category],
   );
   res.status(201).json(result.rows[0]);

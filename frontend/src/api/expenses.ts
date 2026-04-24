@@ -1,9 +1,9 @@
 const BASE_URL = "http://localhost:3002/api/expenses";
 
-export const fetchExpenses = async () => {
+export const fetchExpenses = async (token: string) => {
   const res = await fetch(BASE_URL, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${token}`,
     },
   });
   if (!res.ok) {
@@ -16,12 +16,13 @@ export const addExpense = async (
   title: string,
   amount: number,
   category: string,
+  token: string,
 ) => {
   const res = await fetch(BASE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       title,
@@ -34,11 +35,11 @@ export const addExpense = async (
   }
   return res.json();
 };
-export const deleteExpense = async (id: number) => {
+export const deleteExpense = async (id: number, token: string) => {
   const res = await fetch(`${BASE_URL}/${id}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${token}`,
     },
   });
   if (!res.ok) {
