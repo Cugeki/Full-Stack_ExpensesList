@@ -66,3 +66,16 @@ export const editExpense = async (
   }
   return res.json();
 };
+
+export const togglePaid = async (id: number, token: string) => {
+  const res = await fetch(`${BASE_URL}/${id}/paid`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to toggle paid status");
+  }
+  return res.json();
+};

@@ -7,6 +7,7 @@ export default function ExpenseItems({
   filteredAndSorted,
   delExpense,
   onEdit,
+  onTogglePaid,
 }: {
   filteredAndSorted: Expense[];
   delExpense: (id: number) => Promise<void>;
@@ -16,6 +17,7 @@ export default function ExpenseItems({
     amount: number,
     category: string,
   ) => Promise<void>;
+  onTogglePaid: (id: number) => Promise<void>;
 }) {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState("");
@@ -37,7 +39,7 @@ export default function ExpenseItems({
           {filteredAndSorted.map((expense: Expense) => (
             <li
               key={expense.id}
-              className={`expense-item ${expense.id === editingId ? "editing" : ""}`}
+              className={`expense-item ${expense.id === editingId ? "editing" : ""} ${expense.paid ? "paid" : ""}`}
             >
               {expense.id === editingId ? (
                 <>
@@ -98,6 +100,12 @@ export default function ExpenseItems({
                   </div>
                   <div className="expense-right">
                     <span className="expense-amount">${expense.amount}</span>
+                    <button
+                      className={`paid-btn ${expense.paid ? "is-paid" : ""}`}
+                      onClick={() => onTogglePaid(expense.id)}
+                    >
+                      {expense.paid ? "Paid" : "Mark paid"}
+                    </button>
                     <button
                       className="edit-btn"
                       onClick={() => startEdit(expense)}

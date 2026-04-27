@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { deleteExpense, editExpense, fetchExpenses } from "../api/expenses";
+import {
+  deleteExpense,
+  editExpense,
+  fetchExpenses,
+  togglePaid,
+} from "../api/expenses";
 import AddExpense from "./AddExpense";
 import ExpenseFilter from "./ExpenseFilters";
 import ExpenseItems from "./ExpenseItems";
@@ -55,6 +60,11 @@ export default function ExpensesList({ token }: { token: string }) {
     setExpenses((prev) => prev.map((e) => (e.id === updated.id ? updated : e)));
   };
 
+  const onTogglePaid = async (id: number) => {
+    const updated = await togglePaid(id, token);
+    setExpenses((prev) => prev.map((e) => (e.id === updated.id ? updated : e)));
+  };
+
   useEffect(() => {
     const fetchExpense = async () => {
       const data = await fetchExpenses(token);
@@ -81,6 +91,7 @@ export default function ExpensesList({ token }: { token: string }) {
           filteredAndSorted={filteredAndSorted}
           delExpense={delExpense}
           onEdit={onEdit}
+          onTogglePaid={onTogglePaid}
         />
 
         <h3 className="total">Total Expenses: ${sumExpenses.toFixed(2)}</h3>

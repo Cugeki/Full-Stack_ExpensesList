@@ -7,7 +7,7 @@ const router = Router();
 router.get("/", authenticate, async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
   const result = await pool.query(
-    "SELECT id, amount, title, category, TO_CHAR(date, 'YYYY-MM-DD') as date FROM expenses WHERE user_id = $1",
+    "SELECT id, amount, title, category, paid, TO_CHAR(date, 'YYYY-MM-DD') as date FROM expenses WHERE user_id = $1",
     [userId],
   );
   res.json(result.rows);
@@ -22,7 +22,7 @@ router.post("/", authenticate, async (req: Request, res: Response) => {
     return;
   }
   const result = await pool.query(
-    "INSERT INTO expenses(amount,title,date,user_id,category) VALUES($1, $2, $3, $4, $5) RETURNING id, amount, title, category, TO_CHAR(date, 'YYYY-MM-DD') as date",
+    "INSERT INTO expenses(amount,title,date,user_id,category) VALUES($1, $2, $3, $4, $5) RETURNING id, amount, title, category, paid, TO_CHAR(date, 'YYYY-MM-DD') as date",
     [amount, title, date, userId, category],
   );
   res.status(201).json(result.rows[0]);
@@ -48,6 +48,21 @@ router.patch("/:id", authenticate, async (req: Request, res: Response) => {
     [title, amount, category, id, userId],
   );
 
+  if (result.rows.length === 0) {
+    res.status(404).json({ error: "Expense not found" });
+    return;
+  }
+
+  res.json(result.rows[0]);
+});
+router.patch("/:id/paid", authenticate, async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const userId = (req as any).user.id;
+
+  const result = await pool.query(
+    "UPDATE expenses SET paid = NOT paid WHERE id = $1 AND user_id = $2 RETURNING id, amount, title, category, paid, TO_CHAR(date, 'YYYY-MM-DD') as date",
+    [id, userId],
+  );
   if (result.rows.length === 0) {
     res.status(404).json({ error: "Expense not found" });
     return;

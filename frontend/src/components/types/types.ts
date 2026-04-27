@@ -5,6 +5,7 @@ export interface Expense {
   date: string;
   user_id: number;
   category: string;
+  paid: boolean;
 }
 
 export const CATEGORIES = [
