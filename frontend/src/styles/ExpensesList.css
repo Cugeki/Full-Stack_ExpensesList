@@ -6,6 +6,7 @@
 
 .expenses-left {
   flex: 2;
+  min-height: 500px;
 }
 
 .expenses-right {
@@ -77,4 +78,44 @@
 .budget-input-row {
   display: flex;
   gap: 8px;
+}
+
+.month-header {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #9e6b7a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+  margin-top: 1rem;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.toggle-btn {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  color: #aaa;
+  font-size: 0.875rem;
+  padding: 0.4rem 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggle-btn.active {
+  border-color: #9e6b7a;
+  color: #9e6b7a;
+  background: rgba(158, 107, 122, 0.1);
+}
+
+.filters-and-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.expenses-list-container {
+  min-height: 380px;
 }

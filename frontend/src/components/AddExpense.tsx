@@ -2,6 +2,7 @@ import { useState } from "react";
 import { addExpense } from "../api/expenses";
 import { CATEGORIES, type ExpenseSetterProps } from "./types/types";
 import "../styles/AddExpense.css";
+import toast from "react-hot-toast";
 
 export default function AddExpense({
   setExpenses,
@@ -19,6 +20,7 @@ export default function AddExpense({
     setExpenses((prev) => [...prev, newExpense]);
     setTitle("");
     setAmount("");
+    toast.success("Expense added!");
   };
   return (
     <div className="add-expense">

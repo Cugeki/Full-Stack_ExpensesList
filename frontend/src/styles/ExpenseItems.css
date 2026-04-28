@@ -4,6 +4,8 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 1.5rem;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .expense-item {

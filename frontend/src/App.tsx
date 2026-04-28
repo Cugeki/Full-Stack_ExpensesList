@@ -3,6 +3,7 @@ import Login from "./components/Login";
 import ExpensesList from "./components/ExpensesList";
 import "./styles/global.css";
 import "./styles/app.css";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [token, setToken] = useState<string | null>(
@@ -23,15 +24,18 @@ function App() {
     return <Login onLogin={handleLogin} />;
   } else
     return (
-      <div className="app-card">
-        <div className="app-header">
-          <h1>Welcome to the Expense Tracker!</h1>
-          <button className="logout-btn" onClick={handleLogout}>
-            Logout
-          </button>
+      <>
+        <Toaster />
+        <div className="app-card">
+          <div className="app-header">
+            <h1>Welcome to the Expense Tracker!</h1>
+            <button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+          <ExpensesList token={token} />
         </div>
-        <ExpensesList token={token} />
-      </div>
+      </>
     );
 }
 
