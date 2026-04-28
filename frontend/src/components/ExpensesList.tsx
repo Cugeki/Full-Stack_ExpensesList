@@ -11,7 +11,8 @@ import ExpenseItems from "./ExpenseItems";
 import type { Expense } from "./types/types";
 import "../styles/ExpensesList.css";
 import PieChartExp from "./PieChartExp";
-import { getBudget, updateBudget } from "../api/auth";
+import { getBudget } from "../api/auth";
+import BudgetComponent from "./BudgetComponent";
 export default function ExpensesList({ token }: { token: string }) {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
@@ -22,7 +23,6 @@ export default function ExpensesList({ token }: { token: string }) {
   const [filterCategory, setFilterCategory] = useState("");
 
   const [budget, setBudget] = useState<number>(0);
-  const [budgetInput, setBudgetInput] = useState("");
 
   const filteredAndSorted = [...expenses]
     .filter((expense) => {
@@ -101,42 +101,12 @@ export default function ExpensesList({ token }: { token: string }) {
         />
 
         <h3 className="total">Total Expenses: ${sumExpenses.toFixed(2)}</h3>
-        <div
-          className={`budget-section ${sumExpenses > budget && budget > 0 ? "over-budget" : ""}`}
-        >
-          <div className="budget-bar-container">
-            <div
-              className="budget-bar"
-              style={{
-                width: `${Math.min((sumExpenses / budget) * 100, 100)}%`,
-              }}
-            />
-          </div>
-          <p className="budget-text">
-            {budget > 0
-              ? `$${sumExpenses.toFixed(2)} of $${budget.toFixed(2)} budget used`
-              : "No budget set"}
-          </p>
-          <div className="budget-input-row">
-            <input
-              className="filter-input"
-              type="number"
-              placeholder="Set budget..."
-              value={budgetInput}
-              onChange={(e) => setBudgetInput(e.target.value)}
-            />
-            <button
-              className="add-btn"
-              onClick={async () => {
-                const updated = await updateBudget(token, Number(budgetInput));
-                setBudget(Number(updated.budget));
-                setBudgetInput("");
-              }}
-            >
-              Set
-            </button>
-          </div>
-        </div>
+        <BudgetComponent
+          budget={budget}
+          setBudget={setBudget}
+          token={token}
+          sumExpenses={sumExpenses}
+        />
       </div>
       <div className="expenses-right">
         <AddExpense setExpenses={setExpenses} token={token} />

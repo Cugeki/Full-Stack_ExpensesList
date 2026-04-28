@@ -31,3 +31,10 @@ export interface FilterProps {
   filterCategory: string;
   setFilterCategory: React.Dispatch<React.SetStateAction<string>>;
 }
+
+export interface BudgetProps {
+  budget: number;
+  setBudget: React.Dispatch<React.SetStateAction<number>>;
+  sumExpenses: number;
+  token: string;
+}
